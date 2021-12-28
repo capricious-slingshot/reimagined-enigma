@@ -14,7 +14,7 @@ class About extends Component {
   static navigationOptions = {
     title: 'About'
   }
-  const renderPartner = ({ item }) => {
+  renderPartner = ({ item }) => {
       return (
         <ListItem
           title={item.name}
