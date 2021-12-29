@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { baseUrl } from '../shared/baseUrl';
+import {  baseUrl } from '../shared/baseUrl';
 import Loading from './Loading';
+
 
 const mapStateToProps = state => {
   return {
@@ -12,19 +13,20 @@ const mapStateToProps = state => {
 };
 
 class Directory extends Component {
+
   static navigationOptions = {
     title: 'Directory'
-  };
+  }
 
   render() {
     const { navigate } = this.props.navigation;
-    const renderDirectoryItem = ({ item }) => {
+    const renderDirectoryItem = ({item}) => {
       return (
         <Tile
           title={item.name}
           caption={item.description}
           featured
-          onPress={() => navigate('CampsiteInfo', {campsiteId: item.id})}
+          onPress={() => navigate('CampsiteInfo', { campsiteId: item.id})}
           imageSrc={{uri: baseUrl + item.image}}
         />
       );
@@ -37,7 +39,7 @@ class Directory extends Component {
     if (this.props.campsites.errMess) {
       return (
         <View>
-          <Text>{this.props.campsites.errMess}</Text>
+          <Text>{props.campsites.errMess}</Text>
         </View>
       );
     }

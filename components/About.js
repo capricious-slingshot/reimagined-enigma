@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, FlatList } from 'react-native';
+import { ScrollView, Text, FlatList, } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { baseUrl } from '../shared/baseUrl';
+import {  baseUrl } from '../shared/baseUrl';
 import Loading from './Loading';
 
 const mapStateToProps = state => {
@@ -11,18 +11,30 @@ const mapStateToProps = state => {
   };
 };
 
+function Mission() {
+  return(
+    <Card  title='Our Mission'>
+      <Text style={{margin:10}}>
+      We present a curated database of the best campsites in the vast woods and backcountry of the World Wide Web Wilderness. We increase access to adventure for the public while promoting safe and respectful use of resources. The expert wilderness trekkers on our staff personally verify each campsite to make sure that they are up to our standards. We also present a platform for campers to share reviews on campsites they have visited with each other.
+      </Text>
+    </Card>
+  );
+}
+
 class About extends Component {
+
   static navigationOptions = {
-    title: 'About'
+    title: 'About Us'
   }
 
   render() {
-    const renderPartner = ({ item }) => {
-      return (
+
+    const renderPartner = ({item}) => {
+      return(
         <ListItem
-          title={item.name}
-          subtitle={item.description}
-          leftAvatar={{ source: {uri: baseUrl + item.image} }}
+          title= {item.name}
+          subtitle= {item.description} 
+          leftAvatar= {{source: {uri: baseUrl + item.image}}} 
         />
       );
     };
@@ -37,6 +49,7 @@ class About extends Component {
         </ScrollView>
       );
     }
+
     if (this.props.partners.errMess) {
       return (
         <ScrollView>
@@ -47,12 +60,11 @@ class About extends Component {
         </ScrollView>
       );
     }
-    return (
+
+    return(
       <ScrollView>
         <Mission />
-        <Card wrapperStyle={{ margin: 10 }}>
-          <Card.Title>Community Partners</Card.Title>
-          <Card.Divider />
+        <Card title='Community Partners'>
           <FlatList
             data={this.props.partners.partners}
             renderItem={renderPartner}
@@ -60,7 +72,7 @@ class About extends Component {
           />
         </Card>
       </ScrollView>
-    )
+    );
   }
 }
 
