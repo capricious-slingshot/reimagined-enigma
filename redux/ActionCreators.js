@@ -32,40 +32,39 @@ export const addComments = comments => ({
 });
 
 export const fetchCampsites = () => dispatch => {
+  dispatch(campsitesLoading());
 
-    dispatch(campsitesLoading());
-
-    return fetch(baseUrl + 'campsites')
-        .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
-            error => {
-                const errMess = new Error(error.message);
-                throw errMess;
-            })
-        .then(response => response.json())
-        .then(campsites => dispatch(addCampsites(campsites)))
-        .catch(error => dispatch(campsitesFailed(error.message)));
+  return fetch(baseUrl + 'campsites')
+  .then(response => {
+    if (response.ok) {
+      return response;
+    } else {
+      const error = new Error(`Error ${response.status}: ${response.statusText}`);
+      error.response = response;
+      throw error;
+    }
+  },
+  error => {
+    const errMess = new Error(error.message);
+    throw errMess;
+  })
+  .then(response => response.json())
+  .then(campsites => dispatch(addCampsites(campsites)))
+  .catch(error => dispatch(campsitesFailed(error.message)));
 };
 
 export const campsitesLoading = () => ({
-    type: ActionTypes.CAMPSITES_LOADING
+  type: ActionTypes.CAMPSITES_LOADING
 });
 
 export const campsitesFailed = errMess => ({
-    type: ActionTypes.CAMPSITES_FAILED,
-    payload: errMess
+  type: ActionTypes.CAMPSITES_FAILED,
+  payload: errMess
 });
 
 export const addCampsites = campsites => ({
-    type: ActionTypes.ADD_CAMPSITES,
-    payload: campsites
+  type: ActionTypes.ADD_CAMPSITES,
+  payload: campsites
 });
 
 export const fetchPromotions = () => dispatch => {
@@ -138,4 +137,15 @@ export const partnersFailed = errMess => ({
 export const addPartners = partners => ({
   type: ActionTypes.ADD_PARTNERS,
   payload: partners
+});
+
+export const postFavorite = campsiteId => dispatch => {
+  setTimeout(() => {
+    dispatch(addFavorite(campsiteId));
+  }, 2000);
+};
+
+export const addFavorite = campsiteId => ({
+  type: ActionTypes.ADD_FAVORITE,
+  payload: campsiteId
 });

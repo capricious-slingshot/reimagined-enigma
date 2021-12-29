@@ -12,7 +12,8 @@ export const ConfigureStore = () => {
       campsites,
       comments,
       partners,
-      promotions
+      promotions,
+      favorites
     }),
     applyMiddleware(thunk, logger)
   );
