@@ -3,7 +3,7 @@ import { View, Text, ScrollView} from 'react-native';
 import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
-import Loading from './LoadingComponent';
+import Loading from './Loading';
 
 const mapStateToProps = state => {
   return {
@@ -68,4 +68,4 @@ class Home extends Component {
   }
 }
 
-export defaultconnect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Home);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList } from 'react-native';
+import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet  } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -44,7 +44,7 @@ function RenderCampsite(props) {
 
   if (campsite) {
     return (
-      <Card featuredTitle={campsite.name} image={{uri: baseUrl + campsite.image}>
+      <Card featuredTitle={campsite.name} image={{uri: baseUrl + campsite.image}}>
         <Text style={{margin: 10}}>
           {campsite.description}
         </Text>
@@ -56,7 +56,7 @@ function RenderCampsite(props) {
           onPress={() => props.favorite ? console.log('Already marked as Favorite') : props.markFavorite()}
         />
       </Card>
-    );
+    )
   }
   return <View />;
 }

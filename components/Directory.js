@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
-import Loading from './LoadingComponent';
+import Loading from './Loading';
 
 const mapStateToProps = state => {
   return {
