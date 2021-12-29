@@ -3,6 +3,7 @@ import Home from './Home';
 import Directory from './Directory';
 import Contact from './Contact';
 import About from './About';
+import Reservation from './Reservation';
 import CampsiteInfo from './CampsiteInfo';
 import Constants from 'expo-constants';
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
@@ -127,6 +128,20 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: ({tintColor}) => <Icon name='list' type='font-awesome' size={4} color={tintColor} />
       }
     },
+    Reservation: {
+      screen: ReservationNavigator,
+      navigationOptions: {
+        drawerLabel: 'Reserve Campsite',
+        drawerIcon: ({tintColor}) => (
+          <Icon
+            name='tree'
+            type='font-awesome'
+            size={24}
+            color={tintColor}
+          />
+        )
+      }
+    },
     About: {
       screen: AboutNavigator,
       navigationOptions: {
@@ -165,6 +180,26 @@ class Main extends Component {
     )
   }
 }
+
+const ReservationNavigator = createStackNavigator(
+  {Reservation: { screen: Reservation }},
+  {defaultNavigationOptions: ({navigation}) => ({
+    headerStyle: {
+        backgroundColor: '#5637DD'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+        color: '#fff'
+    },
+    headerLeft: <Icon
+        name='tree'
+        type='font-awesome'
+        iconStyle={styles.stackIcon}
+        onPress={() => navigation.toggleDrawer()}
+    />})
+  }
+);
+
 
 const styles = StyleSheet.create({
   container: {
