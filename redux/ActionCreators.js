@@ -2,39 +2,7 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 export const fetchComments = () => dispatch => {
-    return fetch(baseUrl + 'comments')
-        .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
-            error => {
-                const errMess = new Error(error.message);
-                throw errMess;
-            })
-        .then(response => response.json())
-        .then(comments => dispatch(addComments(comments)))
-        .catch(error => dispatch(commentsFailed(error.message)));
-};
-
-export const commentsFailed = errMess => ({
-    type: ActionTypes.COMMENTS_FAILED,
-    payload: errMess
-});
-
-export const addComments = comments => ({
-    type: ActionTypes.ADD_COMMENTS,
-    payload: comments
-});
-
-export const fetchCampsites = () => dispatch => {
-  dispatch(campsitesLoading());
-
-  return fetch(baseUrl + 'campsites')
+  return fetch(baseUrl + 'comments')
   .then(response => {
     if (response.ok) {
       return response;
@@ -48,6 +16,38 @@ export const fetchCampsites = () => dispatch => {
     const errMess = new Error(error.message);
     throw errMess;
   })
+  .then(response => response.json())
+  .then(comments => dispatch(addComments(comments)))
+  .catch(error => dispatch(commentsFailed(error.message)));
+};
+
+export const commentsFailed = errMess => ({
+  type: ActionTypes.COMMENTS_FAILED,
+  payload: errMess
+});
+
+export const addComments = comments => ({
+  type: ActionTypes.ADD_COMMENTS,
+  payload: comments
+});
+
+export const fetchCampsites = () => dispatch => {
+  dispatch(campsitesLoading());
+
+  return fetch(baseUrl + 'campsites')
+  .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        const error = new Error(`Error ${response.status}: ${response.statusText}`);
+        error.response = response;
+        throw error;
+      }
+    },
+    error => {
+      const errMess = new Error(error.message);
+      throw errMess;
+    })
   .then(response => response.json())
   .then(campsites => dispatch(addCampsites(campsites)))
   .catch(error => dispatch(campsitesFailed(error.message)));
@@ -68,25 +68,26 @@ export const addCampsites = campsites => ({
 });
 
 export const fetchPromotions = () => dispatch => {
-  dispatch(promotionsLoading());
+    dispatch(promotionsLoading());
 
-  return fetch(baseUrl + 'promotions')
-  .then(response => {
-    if (response.ok) {
-      return response;
-    } else {
-      const error = new Error(`Error ${response.status}: ${response.statusText}`);
-      error.response = response;
-      throw error;
-    }
-  },
-  error => {
-    const errMess = new Error(error.message);
-    throw errMess;
-  })
-  .then(response => response.json())
-  .then(promotions => dispatch(addPromotions(promotions)))
-  .catch(error => dispatch(promotionsFailed(error.message)));
+    return fetch(baseUrl + 'promotions')
+    .then(response => {
+          if (response.ok) {
+            return response;
+          } else {
+            const error = new Error(`Error ${response.status}: ${response.statusText}`);
+            error.response = response;
+            throw error;
+          }
+      },
+      error => {
+        const errMess = new Error(error.message);
+        throw errMess;
+      }
+    )
+    .then(response => response.json())
+    .then(promotions => dispatch(addPromotions(promotions)))
+    .catch(error => dispatch(promotionsFailed(error.message)));
 };
 
 export const promotionsLoading = () => ({
@@ -104,25 +105,26 @@ export const addPromotions = promotions => ({
 });
 
 export const fetchPartners = () => dispatch => {
-  dispatch(partnersLoading());
+    dispatch(partnersLoading());
 
-  return fetch(baseUrl + 'partners')
-  .then(response => {
-    if (response.ok) {
-      return response;
-    } else {
-      const error = new Error(`Error ${response.status}: ${response.statusText}`);
-      error.response = response;
-      throw error;
-    }
-  },
-  error => {
-    const errMess = new Error(error.message);
-    throw errMess;
-  })
-  .then(response => response.json())
-  .then(partners => dispatch(addPartners(partners)))
-  .catch(error => dispatch(partnersFailed(error.message)));
+    return fetch(baseUrl + 'partners')
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          const error = new Error(`Error ${response.status}: ${response.statusText}`);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+        const errMess = new Error(error.message);
+        throw errMess;
+      }
+    )
+    .then(response => response.json())
+    .then(partners => dispatch(addPartners(partners)))
+    .catch(error => dispatch(partnersFailed(error.message)));
 };
 
 export const partnersLoading = () => ({
@@ -148,4 +150,23 @@ export const postFavorite = campsiteId => dispatch => {
 export const addFavorite = campsiteId => ({
   type: ActionTypes.ADD_FAVORITE,
   payload: campsiteId
+});
+
+export const postComment = (campsiteId, rating, author, text) => dispatch => {
+  const newComment = {
+    campsiteId,
+    rating,
+    author,
+    text
+  };
+
+  newComment.date = new Date().toISOString(),
+  setTimeout(() => {
+    dispatch(addComment(newComment));
+  }, 2000);
+};
+
+export const addComment = comment => ({
+  type: ActionTypes.ADD_COMMENT,
+  payload: comment
 });
