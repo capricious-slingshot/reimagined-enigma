@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal } from 'react-native';
+import { Text, View, Animated, StyleSheet, Picker, Switch, Button, Modal } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 class Reservation extends Component {
@@ -10,8 +10,25 @@ class Reservation extends Component {
       hikeIn: false,
       date: new Date(),
       showCalendar: false,
-      showModal: false
+      showModal: false,
+      scaleValue: new Animated.Value(0)
     };
+  }
+
+  animate() {
+    Animated.timing(
+      this.state.scaleValue,
+      {
+        toValue: 1,
+        delay: 1000,
+        duration: 2000,
+        useNativeDriver: true
+      }
+    ).start()
+  }
+
+  componentDidMount() {
+    this.animate();
   }
 
   static navigationOptions = {
@@ -40,7 +57,7 @@ class Reservation extends Component {
   render() {
     return (
 
-      <ScrollView>
+      <Animated.View style={{ transform: [{ scale: this.state.scaleValue }]}}>
         <View style={styles.formRow}>
           <Text style={styles.formLabel}>Number of Campers</Text>
           <Picker
@@ -121,7 +138,7 @@ class Reservation extends Component {
             />
           </View>
         </Modal>
-      </ScrollView>
+      </Animated.View>
     );
   }
 }
