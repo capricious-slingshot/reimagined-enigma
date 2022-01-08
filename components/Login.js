@@ -4,6 +4,7 @@ import { Input, CheckBox, Button, Icon  } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { baseUrl } from '../shared/baseUrl';
@@ -181,9 +182,11 @@ class RegisterTab extends Component {
     //pass location, size, and format to manipulateAsync
     const processedImage = await ImageManipulator.manipulateAsync(imgUri, [{ resize: { width: 400 } }], { format: 'png' });
     //log that image is processed
-    console.log(processedImage);
+    console.log(processedImage)
     //save to state
-    this.setState({imageUri: processedImage.uri})
+    this.setState({ imageUri: processedImage.uri })
+    //save image to on phone
+    MediaLibrary.saveToLibraryAsync(processedImage.uri)
   }
 
   handleRegister() {
