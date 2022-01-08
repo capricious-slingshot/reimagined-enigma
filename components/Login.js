@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Input, CheckBox, Button, Icon  } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
-import * as ImageManipulator from 'expo-image-manipulator';
+import { manipulateAsync } from 'expo-image-manipulator';
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -132,7 +132,7 @@ class RegisterTab extends Component {
       lastname: '',
       email: '',
       remember: false,
-      imageUrl: `${baseUrl} images/logo.png`
+      imageUrl: `${baseUrl}assets/images/logo.png`
     };
     }
 
@@ -159,7 +159,7 @@ class RegisterTab extends Component {
 
       if (!capturedImage.cancelled) {
         console.log(capturedImage);
-        this.processImage({imageUrl: capturedImage.uri});
+        this.processImage( capturedImage.uri);
       }
     }
   }
@@ -171,20 +171,18 @@ class RegisterTab extends Component {
     if (cameraRollPermissions.status === 'granted') {
       //pass location, size, and format to manipulateAsync
       const selectedImage = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true, aspect: [1, 1] })
-      //log that image is processed
-      console.log(processedImage)
       //call processImage and pass uri
-      this.processImage({imageUrl: capturedImage.uri})
+      this.processImage(selectedImage.uri)
     }
   }
 
   processImage = async (imgUri) => {
     //pass location, size, and format to manipulateAsync
-    const processedImage = await ImageManipulator.manipulateAsync(imgUri, [{ resize: { width: 400 } }], { format: 'png' });
+    const processedImage = await manipulateAsync(imgUri, [{ resize: { width: 400 } }], { format: 'png' });
     //log that image is processed
     console.log(processedImage)
     //save to state
-    this.setState({ imageUri: processedImage.uri })
+    this.setState({ imageUrl: processedImage.uri })
     //save image to on phone
     MediaLibrary.saveToLibraryAsync(processedImage.uri)
   }
